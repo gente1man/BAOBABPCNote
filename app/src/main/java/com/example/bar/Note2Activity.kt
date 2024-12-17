@@ -56,10 +56,11 @@ class Note2Activity : AppCompatActivity() {
         val headerView = navView.getHeaderView(0)
         val usernameTextView = headerView.findViewById<TextView>(R.id.username)
         val userIconImageView = findViewById<ImageView>(R.id.userIcon3)
+        val defaultUserIconImageView = headerView.findViewById<ImageView>(R.id.ic_user)
 
         // Загружаем юзернейм и аватар
         Log.v("USERINF", "EUI1")
-        loadUserData(userId, usernameTextView, userIconImageView)
+        loadUserData(userId, usernameTextView, userIconImageView, defaultUserIconImageView)
 
         // Обработчик для открытия бокового меню
         val addIcon2 = findViewById<View>(R.id.addIcon2)
@@ -68,7 +69,7 @@ class Note2Activity : AppCompatActivity() {
         }
     }
 
-    private fun loadUserData(userId: String, usernameTextView: TextView, userIconImageView: ImageView) {
+    private fun loadUserData(userId: String, usernameTextView: TextView, userIconImageView: ImageView, userIconImageView2: ImageView) {
         Log.v("USERINF", "EUI2")
         val userRef = FirebaseDatabase.getInstance().getReference("users").child(userId)
 
@@ -91,6 +92,13 @@ class Note2Activity : AppCompatActivity() {
                     .placeholder(R.drawable.ic_user) // Плейсхолдер при загрузке
                     .error(R.drawable.ic_user) // Дефолтная картинка при ошибке
                     .into(userIconImageView)
+
+                Glide.with(this)
+                    .load(avatarUrl)
+                    .circleCrop()
+                    .placeholder(R.drawable.ic_user)
+                    .error(R.drawable.ic_user)
+                    .into(userIconImageView2)
             } else {
                 userIconImageView.setImageResource(R.drawable.ic_user)
             }

@@ -11,8 +11,21 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:spinnerStyle">@style/CustomSpinnerStyle</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="CustomSpinnerStyle" parent="Widget.AppCompat.Spinner.DropDown.ActionBar">
+        <item name="android:textColor">#00FF00</item> <!-- Цвет текста (красный) -->
+        <item name="android:popupBackground">#00FFFF</item> <!-- Фон выпадающего списка -->
+    </style>
+
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:dialogCornerRadius">100dp</item>
+        <item name="android:windowMinWidthMajor">90%</item> <!-- Регулирует ширину (по желанию) -->
+        <item name="android:windowMinWidthMinor">90%</item>
+    </style>
+
 
     <style name="Theme.Bar.NoActionBar">
         <item name="windowActionBar">false</item>
