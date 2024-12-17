@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Внешняя красная обводка -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" />
+            <stroke
+                android:width="2.5dp"
+                android:color="#FF0000" /> <!-- Красный цвет -->
+            <corners android:radius="12dp" /> <!-- Скругленные углы (опционально) -->
+        </shape>
+    </item>
+
+    <!-- Внутренний фон -->
+</layer-list>
