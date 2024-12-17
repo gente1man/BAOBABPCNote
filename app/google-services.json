@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "879817015989",
+    "project_id": "baobab-pc-be59f",
+    "storage_bucket": "baobab-pc-be59f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879817015989:android:3a810dd5b6668e441474fc",
+        "android_client_info": {
+          "package_name": "com.example.bar"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSK-vHhLt5pkeZka8cXs3jWRk4wkEonp4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

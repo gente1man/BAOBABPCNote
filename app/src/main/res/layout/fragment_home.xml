@@ -16,7 +16,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/buildName"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -1174,7 +1173,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Save buld"
+                android:text="Save build"
                 app:layout_constraintEnd_toEndOf="@+id/BP"
                 app:layout_constraintStart_toStartOf="@+id/BP"
                 app:layout_constraintTop_toBottomOf="@+id/BP" />
