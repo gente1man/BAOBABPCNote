@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -36,13 +37,16 @@ class GalleryFragment : Fragment() {
 
         val cardLayout = binding.cardLayout
         val firstAnchorView  = binding.build // ID первого объекта для привязки
-        LibraryManager.importLibrary(requireContext(), cardLayout, firstAnchorView)
+        LibraryManager.importLibrary(requireContext(), cardLayout, firstAnchorView, this)
 
         val btn = binding.btn
         btn.setOnClickListener {
             // Создаем экземпляр HomeFragment
             val navController = findNavController()
-            navController.navigate(R.id.nav_home)
+            val bundle = Bundle().apply {
+                putString("message","")
+            }
+            navController.navigate(R.id.nav_home, bundle)
         }
         return root
     }

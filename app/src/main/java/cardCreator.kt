@@ -269,6 +269,7 @@ object ComponentCardUtils {
         context: Context,
         parentLayout: ConstraintLayout,
         previousViewId: Int,
+        bp: Int,
         cardId: Int,
         sbButton: Button,
         cardLibrary: CardLibrary
@@ -311,10 +312,10 @@ object ComponentCardUtils {
                 ConstraintLayout.LayoutParams.MATCH_PARENT,
                 ConstraintLayout.LayoutParams.WRAP_CONTENT
             ).apply {
-                topToBottom = previousViewId
+                topToBottom = bp
                 startToStart = ConstraintLayout.LayoutParams.PARENT_ID
                 endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
-                topMargin = 20.dpToPx(context) // 20dp отступ сверху
+                topMargin =  (if (previousViewId > 0) (20 + (170 * previousViewId)) else 20).dpToPx(context) // 20dp отступ сверху
             }
             cardView.layoutParams = layoutParams
 
@@ -374,6 +375,7 @@ object ComponentCardUtils {
         context: Context,
         parentLayout: ConstraintLayout,
         previousViewId: Int,
+        bp: Int,
         cardId: Int,
         sbButton: Button,
         cardLibrary: CardLibrary,
@@ -401,10 +403,10 @@ object ComponentCardUtils {
                 ConstraintLayout.LayoutParams.MATCH_PARENT,
                 ConstraintLayout.LayoutParams.WRAP_CONTENT
             ).apply {
-                topToBottom = previousViewId
+                topToBottom = bp
                 startToStart = ConstraintLayout.LayoutParams.PARENT_ID
                 endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
-                topMargin = 20.dpToPx(context) // 20dp отступ сверху
+                topMargin =  (if (previousViewId > 0) (20 + (170 * previousViewId)) else 20).dpToPx(context) // 20dp отступ сверху
             }
             cardView.layoutParams = layoutParams
 

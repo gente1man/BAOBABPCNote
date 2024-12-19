@@ -43,8 +43,8 @@ class HomeFragment : Fragment() {
         var cardId = cardLibrary.addCard()
         val addButton = binding.SB
         val cardLayout = binding.cardLayout
-        var previousViewId = R.id.BP
-        var cardCounter = 1
+        var cardCounter = 0
+        var recLoadName:String = ""
         val baseCardIdList = mutableListOf<String>()
         addButton.setOnClickListener {
             val name = binding.buildName.text.toString()
@@ -82,6 +82,14 @@ class HomeFragment : Fragment() {
             // Устанавливаем адаптер для спиннера
             spinner.adapter = adapter
         }
+
+        val message = arguments?.getString("message")
+
+        // Отображение сообщения в Toast, если оно не пустое
+        message?.let {
+            recLoadName = it
+        }
+        cardCounter = 0
         // Инициализируем Spinner
 
         // Создаем компонентную карточку
@@ -216,10 +224,11 @@ class HomeFragment : Fragment() {
 
         fun addCard() {
             //Добавление карточки
-            val newCardElements = addCard(
+            val newCardElements = ComponentCardUtils.addCard(
                 context = requireContext(),
                 parentLayout = cardLayout,
-                previousViewId = previousViewId,
+                previousViewId = cardCounter,
+                binding.BP.id,
                 cardId = View.generateViewId(), // Генерация уникального ID для карточки
                 binding.SB,
                 cardLibrary
@@ -229,16 +238,16 @@ class HomeFragment : Fragment() {
             }
 
             // Обновляем ID предыдущей карточки
-            previousViewId = cardCounter
             cardCounter++
         }
 
         fun autoAddCard(name:String): CardUIElements? {
             //Добавление карточки
-            val newCardElements = addCard_USENAME(
+            val newCardElements = ComponentCardUtils.addCard_USENAME(
                 context = requireContext(),
                 parentLayout = cardLayout,
-                previousViewId = previousViewId,
+                previousViewId = cardCounter,
+                binding.BP.id,
                 cardId = View.generateViewId(), // Генерация уникального ID для карточки
                 binding.SB,
                 cardLibrary,
@@ -246,7 +255,6 @@ class HomeFragment : Fragment() {
             )
 
             // Обновляем ID предыдущей карточки
-            previousViewId = cardCounter
             cardCounter++
             return newCardElements
         }
@@ -298,13 +306,17 @@ class HomeFragment : Fragment() {
                         } else {
                             println("Ошибка: Номер карточки $targetCardIndex выходит за пределы списка cardIdList")
                         }
-                    } else {
+                    } else if (component.type == ComponentType.OTHER) {
                         // Если тип OTHER, создаём новую карточку
-                        val newCardId = cardLibrary.addCard()
-                        autoAddCard(cardId)?.let { cardUIElementsList.add(it) }
+                        val foundCard = cardUIElementsList.find { it.cardId == cardId }
 
-                        val foundCard = cardUIElementsList.find { it.cardId == cardId}
+                        if (foundCard == null) {
+                            // Если карточка с таким cardId не найдена, создаём новую
+                            val newCardId = cardLibrary.addCard()
+                            autoAddCard(cardId)?.let { cardUIElementsList.add(it) }
+                        }
 
+                        // Проверяем ещё раз, так как карточка могла быть добавлена
                         if (foundCard != null) {
                             saveComponent(
                                 component.type,
@@ -328,24 +340,27 @@ class HomeFragment : Fragment() {
         binding.addComp.setOnClickListener {
             addCard()
         }
+        Toast.makeText(requireContext(), recLoadName, Toast.LENGTH_SHORT).show()
+        if (!recLoadName.isBlank()) {
+            FirebaseManager.getRecordByName(recLoadName) { importedData ->
+                if (importedData != null) {
+                    cardLibrary.importFromDatabase(importedData, baseCardIdList)
 
-            FirebaseManager.getRecordByName("Example") { importedData ->
-            if (importedData != null) {
-                cardLibrary.importFromDatabase(importedData, baseCardIdList)
+                    // После импорта, можно передать данные в importAndDistributeComponents
+                    importAndDistributeComponents(
+                        cardLibrary = cardLibrary,
+                        importedData = importedData,
+                        cardIdList = baseCardIdList,
+                    )
 
-                // После импорта, можно передать данные в importAndDistributeComponents
-                importAndDistributeComponents(
-                    cardLibrary = cardLibrary,
-                    importedData = importedData,
-                    cardIdList = baseCardIdList,
-                )
-
-            } else {
-                println("Ошибка при получении сборки.")
+                } else {
+                    println("Ошибка при получении сборки.")
+                }
             }
         }
-
-
+        else{
+            Toast.makeText(requireContext(), "Empty(", Toast.LENGTH_SHORT).show()
+        }
 
         return root
     }
@@ -355,6 +370,7 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 
     fun getArrayAdapterFromSpinner(spinner: Spinner): ArrayAdapter<String>? {
         val adapter = spinner.adapter

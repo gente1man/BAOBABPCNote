@@ -1,13 +1,17 @@
 package com.example.bar
 
 import android.app.AlertDialog
+import android.app.Fragment
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -17,7 +21,7 @@ object LibraryManager {
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
 
     // Функция для импорта всех сборок
-    fun importLibrary(context: Context, cardLayout: ConstraintLayout, firstAnchorView: View) {
+    fun importLibrary(context: Context, cardLayout: ConstraintLayout, firstAnchorView: View, fragment:androidx.fragment.app.Fragment) {
         val userId = auth.currentUser?.uid
         if (userId != null) {
             val userRef = database.getReference("users").child(userId).child("cardLibraries")
@@ -59,6 +63,14 @@ object LibraryManager {
                         val deleteButton = cardView.findViewById<ImageView>(R.id.imageView6)
                         deleteButton.setOnClickListener {
                             showDeleteConfirmationDialog(context, cardView, cardLayout)
+                        }
+                        val editButton = cardView.findViewById<ImageView>(R.id.imageView4)
+                        editButton.setOnClickListener {
+                            val navController = findNavController(fragment)
+                            val bundle = Bundle().apply {
+                                putString("message", cardView.findViewById<EditText>(R.id.build).text.toString())
+                            }
+                            navController.navigate(R.id.nav_home, bundle)
                         }
                     }
                 }
