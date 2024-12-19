@@ -4,7 +4,8 @@ data class Component(
     var name: String,        // Название компонента
     var link: String,        // Ссылка
     var price: String,       // Цена
-    val type: ComponentType  // Тип компонента (MB, CPU, GPU и т.д.)
+    var type: ComponentType,  // Тип компонента (MB, CPU, GPU и т.д.)
+    val id: String
 )
 
 enum class ComponentType {

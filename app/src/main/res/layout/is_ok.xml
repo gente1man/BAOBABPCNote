@@ -6,7 +6,10 @@
     android:layout_height="wrap_content"
     android:background="@drawable/light_gray_border_fill"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingLeft="16dp"
+    android:paddingTop="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="10dp">
 
     <TextView
         android:id="@+id/textView2"
@@ -14,43 +17,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
         android:fontFamily="@font/anta"
-        android:text="Add component"
+        android:text="Are you sure?"
         android:textColor="#FF5722"
         android:textSize="20sp" />
-
-    <EditText
-        android:id="@+id/CUSTOM_nameInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#FF5722"
-        android:hint="Name"
-        android:textColor="#FFFFFF"
-        android:textColorHighlight="#FFFFFF"
-        android:textColorHint="#353535"
-        android:textColorLink="#FF0000" />
-
-    <EditText
-        android:id="@+id/editTextLink"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#FF5722"
-        android:hint="Url"
-        android:textColor="#FFFFFF"
-        android:textColorHighlight="#FFFFFF"
-        android:textColorHint="#353535"
-        android:textColorLink="#FF0000" />
-
-    <EditText
-        android:id="@+id/editTextPrice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#FF5722"
-        android:hint="Cost"
-        android:inputType="numberDecimal"
-        android:textColor="#FFFFFF"
-        android:textColorHighlight="#FFFFFF"
-        android:textColorHint="#353535"
-        android:textColorLink="#FF0000" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -75,7 +44,7 @@
             android:background="#00FFFFFF"
             android:fontFamily="@font/anta"
             android:padding="0dp"
-            android:text="SAVE"
+            android:text="OK"
             android:textColor="#FF5722"
             app:iconPadding="0dp"
             app:layout_constraintEnd_toEndOf="parent"

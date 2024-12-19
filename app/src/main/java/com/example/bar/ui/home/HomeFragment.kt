@@ -3,6 +3,7 @@ package com.example.bar.ui.home
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +12,23 @@ import androidx.fragment.app.Fragment
 import com.example.bar.Component
 import com.example.bar.ComponentCardUtils
 import com.example.bar.R
+import com.example.bar.FirebaseManager
 import com.example.bar.ComponentType
 import com.example.bar.databinding.FragmentHomeBinding
+import com.example.bar.CardLibrary
+import com.example.bar.ComponentCardUtils.addCard
+import com.example.bar.CardUIElements
+import com.example.bar.ComponentCardUtils.addCard_USENAME
+import com.example.bar.ComponentCardUtils.getComponentsByCardId
+import com.example.bar.ComponentCardUtils.saveComponent
+
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
+
+    private val cardUIElementsList = mutableListOf<CardUIElements>()
 
     // Список компонентов и адаптер для Spinner
 
@@ -28,11 +39,55 @@ class HomeFragment : Fragment() {
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        val cardLibrary = CardLibrary()
+        var cardId = cardLibrary.addCard()
+        val addButton = binding.SB
+        val cardLayout = binding.cardLayout
+        var previousViewId = R.id.BP
+        var cardCounter = 1
+        val baseCardIdList = mutableListOf<String>()
+        addButton.setOnClickListener {
+            val name = binding.buildName.text.toString()
+            if (!name.isBlank()) {
+                // Пример использования
+                val recordName = name  // Имя записи
+                // Добавляем запись в текущего пользователя
+                cardLibrary.logCardLibrary()
+                FirebaseManager.addRecordToCurrentUser(cardLibrary, recordName, requireContext())
+            }
+            else {
+                Toast.makeText(requireContext(), "Введите название сборки!", Toast.LENGTH_SHORT).show()
+            }
+        }
+        fun addCardToStorage(
+            cardId: String,
+            addButton: Button,
+            spinner: Spinner,
+            priceTextView: TextView,
+            editButton: ImageView,
+            adapter: SpinnerAdapter
+        ) {
+            // Создаем объект CardUIElements с переданными параметрами
+            val cardUI = CardUIElements(
+                cardId = cardId,
+                addButton = addButton,
+                spinner = spinner,
+                priceTextView = priceTextView,
+                editButton = editButton
+            )
 
+            // Добавляем объект в список cardUIElementsList
+            cardUIElementsList.add(cardUI)
+
+            // Устанавливаем адаптер для спиннера
+            spinner.adapter = adapter
+        }
         // Инициализируем Spinner
 
-
         // Создаем компонентную карточку
+        val adapter = ComponentCardUtils.createAdapter(requireContext(), binding.CASProcessorSpinner)
+        addCardToStorage(cardId, binding.button2, binding.processorSpinner, binding.textView4, binding.imageView2, adapter)
+        baseCardIdList.add(cardId);
         ComponentCardUtils.createComponentCard(
             binding.button2, // Кнопка добавления
             binding.processorSpinner,         // Spinner
@@ -40,9 +95,15 @@ class HomeFragment : Fragment() {
             binding.imageView2, // Кнопка редактирования
             ComponentType.MB, // Тип компонента
             mutableListOf<Component>(),       // Список компонентов
-            ComponentCardUtils.createAdapter(requireContext(), binding.processorSpinner)    // Адаптер Spinner
+            adapter,   // Адаптер Spinner
+            cardLibrary,
+            cardId
         )
 
+        cardId = cardLibrary.addCard()
+        val adapterP = ComponentCardUtils.createAdapter(requireContext(), binding.CASProcessorSpinner)
+        addCardToStorage(cardId, binding.PButton2, binding.PProcessorSpinner, binding.PTextView4, binding.PImageView2, adapterP)
+        baseCardIdList.add(cardId);
         ComponentCardUtils.createComponentCard(
             binding.PButton2, // Кнопка добавления
             binding.PProcessorSpinner,         // Spinner
@@ -50,9 +111,15 @@ class HomeFragment : Fragment() {
             binding.PImageView2, // Кнопка редактирования
             ComponentType.CPU, // Тип компонента
             mutableListOf<Component>(),       // Список компонентов
-            ComponentCardUtils.createAdapter(requireContext(), binding.PProcessorSpinner)    // Адаптер Spinner
+            adapterP,   // Адаптер Spinner
+            cardLibrary,
+            cardId
         )
 
+        cardId = cardLibrary.addCard()
+        val adapterG = ComponentCardUtils.createAdapter(requireContext(), binding.CASProcessorSpinner)
+        addCardToStorage(cardId, binding.GButton2, binding.GProcessorSpinner, binding.GTextView4, binding.GImageView2, adapterG)
+        baseCardIdList.add(cardId);
         ComponentCardUtils.createComponentCard(
             binding.GButton2, // Кнопка добавления
             binding.GProcessorSpinner,         // Spinner
@@ -60,9 +127,15 @@ class HomeFragment : Fragment() {
             binding.GImageView2, // Кнопка редактирования
             ComponentType.GPU, // Тип компонента
             mutableListOf<Component>(),       // Список компонентов
-            ComponentCardUtils.createAdapter(requireContext(), binding.GProcessorSpinner)    // Адаптер Spinner
+            adapterG,    // Адаптер Spinner
+            cardLibrary,
+            cardId
         )
 
+        cardId = cardLibrary.addCard()
+        val adapterR = ComponentCardUtils.createAdapter(requireContext(), binding.CASProcessorSpinner)
+        addCardToStorage(cardId, binding.RButton2, binding.RProcessorSpinner, binding.RTextView4, binding.RImageView2, adapterR)
+        baseCardIdList.add(cardId);
         ComponentCardUtils.createComponentCard(
             binding.RButton2, // Кнопка добавления
             binding.RProcessorSpinner,         // Spinner
@@ -70,9 +143,15 @@ class HomeFragment : Fragment() {
             binding.RImageView2, // Кнопка редактирования
             ComponentType.RAM, // Тип компонента
             mutableListOf<Component>(),       // Список компонентов
-            ComponentCardUtils.createAdapter(requireContext(), binding.RProcessorSpinner)    // Адаптер Spinner
+            adapterR,    // Адаптер Spinner
+            cardLibrary,
+            cardId
         )
 
+        cardId = cardLibrary.addCard()
+        val adapterF = ComponentCardUtils.createAdapter(requireContext(), binding.CASProcessorSpinner)
+        addCardToStorage(cardId, binding.FButton2, binding.FProcessorSpinner, binding.FTextView4, binding.FImageView2, adapterF)
+        baseCardIdList.add(cardId);
         ComponentCardUtils.createComponentCard(
             binding.FButton2, // Кнопка добавления
             binding.FProcessorSpinner,         // Spinner
@@ -80,9 +159,15 @@ class HomeFragment : Fragment() {
             binding.FImageView2, // Кнопка редактирования
             ComponentType.COOL, // Тип компонента
             mutableListOf<Component>(),       // Список компонентов
-            ComponentCardUtils.createAdapter(requireContext(), binding.FProcessorSpinner)    // Адаптер Spinner
+            adapterF,    // Адаптер Spinner
+            cardLibrary,
+            cardId
         )
 
+        cardId = cardLibrary.addCard()
+        val adapterS = ComponentCardUtils.createAdapter(requireContext(), binding.CASProcessorSpinner)
+        addCardToStorage(cardId, binding.SButton2, binding.SProcessorSpinner, binding.STextView4, binding.SImageView2, adapterS)
+        baseCardIdList.add(cardId);
         ComponentCardUtils.createComponentCard(
             binding.SButton2, // Кнопка добавления
             binding.SProcessorSpinner,         // Spinner
@@ -90,9 +175,15 @@ class HomeFragment : Fragment() {
             binding.SImageView2, // Кнопка редактирования
             ComponentType.DISK, // Тип компонента
             mutableListOf<Component>(),       // Список компонентов
-            ComponentCardUtils.createAdapter(requireContext(), binding.SProcessorSpinner)    // Адаптер Spinner
+            adapterS,    // Адаптер Spinner
+            cardLibrary,
+            cardId
         )
 
+        cardId = cardLibrary.addCard()
+        val adapterCAS = ComponentCardUtils.createAdapter(requireContext(), binding.CASProcessorSpinner)
+        addCardToStorage(cardId, binding.CASButton2, binding.CASProcessorSpinner, binding.CASTextView4, binding.CASImageView2, adapterCAS)
+        baseCardIdList.add(cardId);
         ComponentCardUtils.createComponentCard(
             binding.CASButton2, // Кнопка добавления
             binding.CASProcessorSpinner,         // Spinner
@@ -100,9 +191,15 @@ class HomeFragment : Fragment() {
             binding.CASImageView2, // Кнопка редактирования
             ComponentType.CASE, // Тип компонента
             mutableListOf<Component>(),       // Список компонентов
-            ComponentCardUtils.createAdapter(requireContext(), binding.CASProcessorSpinner)    // Адаптер Spinner
+            adapterCAS,    // Адаптер Spinner
+            cardLibrary,
+            cardId
         )
 
+        cardId = cardLibrary.addCard()
+        val adapterB = ComponentCardUtils.createAdapter(requireContext(), binding.BPProcessorSpinner)
+        addCardToStorage(cardId, binding.BPButton2, binding.BPProcessorSpinner, binding.BPTextView4, binding.BPImageView2, adapterB)
+        baseCardIdList.add(cardId);
         ComponentCardUtils.createComponentCard(
             binding.BPButton2, // Кнопка добавления
             binding.BPProcessorSpinner,         // Spinner
@@ -110,14 +207,165 @@ class HomeFragment : Fragment() {
             binding.BPImageView2, // Кнопка редактирования
             ComponentType.BP, // Тип компонента
             mutableListOf<Component>(),       // Список компонентов
-            ComponentCardUtils.createAdapter(requireContext(), binding.BPProcessorSpinner)    // Адаптер Spinner
+            adapterB,    // Адаптер Spinner
+            cardLibrary,
+            cardId
         )
+
+
+
+        fun addCard() {
+            //Добавление карточки
+            val newCardElements = addCard(
+                context = requireContext(),
+                parentLayout = cardLayout,
+                previousViewId = previousViewId,
+                cardId = View.generateViewId(), // Генерация уникального ID для карточки
+                binding.SB,
+                cardLibrary
+            )
+            if (newCardElements != null) {
+                cardUIElementsList.add(newCardElements)
+            }
+
+            // Обновляем ID предыдущей карточки
+            previousViewId = cardCounter
+            cardCounter++
+        }
+
+        fun autoAddCard(name:String): CardUIElements? {
+            //Добавление карточки
+            val newCardElements = addCard_USENAME(
+                context = requireContext(),
+                parentLayout = cardLayout,
+                previousViewId = previousViewId,
+                cardId = View.generateViewId(), // Генерация уникального ID для карточки
+                binding.SB,
+                cardLibrary,
+                name
+            )
+
+            // Обновляем ID предыдущей карточки
+            previousViewId = cardCounter
+            cardCounter++
+            return newCardElements
+        }
+
+        fun importAndDistributeComponents(
+            cardLibrary: CardLibrary,
+            importedData: Map<String, List<Component>>,
+            cardIdList: List<String>,
+        ) {
+            // Проходим по всем записям в базе
+            for ((cardId, components) in importedData) {
+                for (component in components) {
+                    val targetCardIndex = when (component.type) {
+                        ComponentType.MB -> 0
+                        ComponentType.CPU -> 1
+                        ComponentType.GPU -> 2
+                        ComponentType.RAM -> 3
+                        ComponentType.COOL -> 4
+                        ComponentType.DISK -> 5
+                        ComponentType.CASE -> 6
+                        ComponentType.BP -> 7
+                        ComponentType.OTHER -> null
+                    }
+
+                    if (targetCardIndex != null) {
+                        // Проверяем, существует ли карточка для компонента
+                        if (targetCardIndex < cardIdList.size) {
+                            val targetCardId = cardIdList[targetCardIndex]
+
+                            // Добавляем компонент в соответствующую карточку
+
+                            val foundCard = cardUIElementsList.find { it.cardId == targetCardId}
+
+                            if (foundCard != null) {
+                                saveComponent(
+                                    component.type,
+                                    null,
+                                    getComponentsByCardId(targetCardId),
+                                    foundCard.spinner,
+                                    getArrayAdapterFromSpinner(foundCard.spinner),
+                                    foundCard.priceTextView,
+                                    cardLibrary,
+                                    targetCardId,
+                                    component.name,
+                                    component.link,
+                                    price = component.price
+                                )
+                            }
+                        } else {
+                            println("Ошибка: Номер карточки $targetCardIndex выходит за пределы списка cardIdList")
+                        }
+                    } else {
+                        // Если тип OTHER, создаём новую карточку
+                        val newCardId = cardLibrary.addCard()
+                        autoAddCard(cardId)?.let { cardUIElementsList.add(it) }
+
+                        val foundCard = cardUIElementsList.find { it.cardId == cardId}
+
+                        if (foundCard != null) {
+                            saveComponent(
+                                component.type,
+                                null,
+                                getComponentsByCardId(cardId),
+                                foundCard.spinner,
+                                getArrayAdapterFromSpinner(foundCard.spinner),
+                                foundCard.priceTextView,
+                                cardLibrary,
+                                cardId,
+                                component.name,
+                                component.link,
+                                price = component.price
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        binding.addComp.setOnClickListener {
+            addCard()
+        }
+
+            FirebaseManager.getRecordByName("Example") { importedData ->
+            if (importedData != null) {
+                cardLibrary.importFromDatabase(importedData, baseCardIdList)
+
+                // После импорта, можно передать данные в importAndDistributeComponents
+                importAndDistributeComponents(
+                    cardLibrary = cardLibrary,
+                    importedData = importedData,
+                    cardIdList = baseCardIdList,
+                )
+
+            } else {
+                println("Ошибка при получении сборки.")
+            }
+        }
+
+
 
         return root
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+    fun getArrayAdapterFromSpinner(spinner: Spinner): ArrayAdapter<String>? {
+        val adapter = spinner.adapter
+        return if (adapter is ArrayAdapter<*>) {
+            // Приводим адаптер к ArrayAdapter<String> безопасно
+            @Suppress("UNCHECKED_CAST")
+            adapter as ArrayAdapter<String>
+        } else {
+            // Если адаптер не является ArrayAdapter<String>, возвращаем null
+            null
+        }
+    }
+
 }

@@ -20,6 +20,7 @@
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cardLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp">
@@ -36,6 +37,7 @@
                 android:backgroundTintMode="add"
                 android:hint="Enter a build name"
                 android:padding="10dp"
+                android:textColor="#FFFFFF"
                 android:textColorHint="#555555"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="8dp" />
@@ -124,7 +126,6 @@
 
                         <Spinner
                             android:id="@+id/processorSpinner"
-                            style="@style/CustomSpinnerStyle"
                             android:layout_width="0dp"
                             android:layout_height="42dp"
                             android:layout_marginEnd="10dp"
@@ -275,9 +276,9 @@
                             android:layout_width="0dp"
                             android:layout_height="42dp"
                             android:layout_marginEnd="10dp"
+                            android:dropDownVerticalOffset="50dp"
                             android:foreground="@drawable/light_gray_border"
                             android:popupBackground="@drawable/light_gray_border_fill"
-                            android:dropDownVerticalOffset="50dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/P_button2"
                             app:layout_constraintStart_toStartOf="parent"
@@ -420,9 +421,9 @@
                             android:layout_width="0dp"
                             android:layout_height="42dp"
                             android:layout_marginEnd="10dp"
+                            android:dropDownVerticalOffset="50dp"
                             android:foreground="@drawable/light_gray_border"
                             android:popupBackground="@drawable/light_gray_border_fill"
-                            android:dropDownVerticalOffset="50dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/G_button2"
                             app:layout_constraintStart_toStartOf="parent"
@@ -565,9 +566,9 @@
                             android:layout_width="0dp"
                             android:layout_height="42dp"
                             android:layout_marginEnd="10dp"
+                            android:dropDownVerticalOffset="50dp"
                             android:foreground="@drawable/light_gray_border"
                             android:popupBackground="@drawable/light_gray_border_fill"
-                            android:dropDownVerticalOffset="50dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/R_button2"
                             app:layout_constraintStart_toStartOf="parent"
@@ -710,9 +711,9 @@
                             android:layout_width="0dp"
                             android:layout_height="42dp"
                             android:layout_marginEnd="10dp"
+                            android:dropDownVerticalOffset="50dp"
                             android:foreground="@drawable/light_gray_border"
                             android:popupBackground="@drawable/light_gray_border_fill"
-                            android:dropDownVerticalOffset="50dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/F_button2"
                             app:layout_constraintStart_toStartOf="parent"
@@ -855,9 +856,9 @@
                             android:layout_width="0dp"
                             android:layout_height="42dp"
                             android:layout_marginEnd="10dp"
+                            android:dropDownVerticalOffset="50dp"
                             android:foreground="@drawable/light_gray_border"
                             android:popupBackground="@drawable/light_gray_border_fill"
-                            android:dropDownVerticalOffset="50dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/S_button2"
                             app:layout_constraintStart_toStartOf="parent"
@@ -985,6 +986,7 @@
                             android:paddingRight="2dp"
                             android:paddingBottom="2dp"
                             android:text="Add +"
+                            android:textAllCaps="false"
                             android:textColor="#FFFFFF"
                             android:textSize="14sp"
                             app:cornerRadius="8dp"
@@ -999,9 +1001,9 @@
                             android:layout_width="0dp"
                             android:layout_height="42dp"
                             android:layout_marginEnd="10dp"
+                            android:dropDownVerticalOffset="50dp"
                             android:foreground="@drawable/light_gray_border"
                             android:popupBackground="@drawable/light_gray_border_fill"
-                            android:dropDownVerticalOffset="50dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/CAS_button2"
                             app:layout_constraintStart_toStartOf="parent"
@@ -1145,9 +1147,9 @@
                             android:layout_width="0dp"
                             android:layout_height="42dp"
                             android:layout_marginEnd="10dp"
+                            android:dropDownVerticalOffset="50dp"
                             android:foreground="@drawable/light_gray_border"
                             android:popupBackground="@drawable/light_gray_border_fill"
-                            android:dropDownVerticalOffset="50dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/BP_button2"
                             app:layout_constraintStart_toStartOf="parent"
@@ -1207,15 +1209,24 @@
             </androidx.cardview.widget.CardView>
 
             <Button
-                android:id="@+id/button"
-                android:layout_width="0dp"
+                android:id="@+id/SB"
+                android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:backgroundTint="#FD6635"
-                android:text="Save build"
-                app:layout_constraintEnd_toEndOf="@+id/BP"
-                app:layout_constraintStart_toStartOf="@+id/BP"
+                android:text="Save"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/BP" />
+
+            <Button
+                android:id="@+id/addComp"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#FD6635"
+                android:text="Add +"
+                app:layout_constraintBottom_toBottomOf="@+id/SB"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/SB" />
 
             <!-- Блок Graphics Card -->
 

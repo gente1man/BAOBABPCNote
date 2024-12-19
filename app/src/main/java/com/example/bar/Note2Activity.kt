@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 
 class Note2Activity : AppCompatActivity() {
+    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityNote2Binding
     private lateinit var auth: FirebaseAuth
 
@@ -31,6 +32,8 @@ class Note2Activity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityNote2Binding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setSupportActionBar(binding.appBarNote2.toolbar)
 
         auth = FirebaseAuth.getInstance()
         val drawerLayout = binding.drawerLayout
@@ -57,6 +60,15 @@ class Note2Activity : AppCompatActivity() {
         val usernameTextView = headerView.findViewById<TextView>(R.id.username)
         val userIconImageView = findViewById<ImageView>(R.id.userIcon3)
         val defaultUserIconImageView = headerView.findViewById<ImageView>(R.id.ic_user)
+        val navController = findNavController(R.id.nav_host_fragment_content_note2)
+
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+            ), drawerLayout
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
 
         // Загружаем юзернейм и аватар
         Log.v("USERINF", "EUI1")
@@ -67,6 +79,12 @@ class Note2Activity : AppCompatActivity() {
         addIcon2.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.note2, menu)
+        return true
     }
 
     private fun loadUserData(userId: String, usernameTextView: TextView, userIconImageView: ImageView, userIconImageView2: ImageView) {

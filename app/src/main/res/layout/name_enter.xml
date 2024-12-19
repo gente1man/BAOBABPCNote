@@ -29,29 +29,6 @@
         android:textColorHint="#353535"
         android:textColorLink="#FF0000" />
 
-    <EditText
-        android:id="@+id/editTextLink"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#FF5722"
-        android:hint="Url"
-        android:textColor="#FFFFFF"
-        android:textColorHighlight="#FFFFFF"
-        android:textColorHint="#353535"
-        android:textColorLink="#FF0000" />
-
-    <EditText
-        android:id="@+id/editTextPrice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#FF5722"
-        android:hint="Cost"
-        android:inputType="numberDecimal"
-        android:textColor="#FFFFFF"
-        android:textColorHighlight="#FFFFFF"
-        android:textColorHint="#353535"
-        android:textColorLink="#FF0000" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
