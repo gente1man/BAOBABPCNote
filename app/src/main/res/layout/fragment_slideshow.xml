@@ -63,19 +63,6 @@
             app:srcCompat="@android:drawable/ic_menu_add"
             tools:srcCompat="@drawable/ic_custom" />
 
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/anta"
-            android:text="Build name"
-            android:textColor="#909090"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/imageView5"
-            app:layout_constraintTop_toTopOf="@+id/imageView5" />
-
         <ImageView
             android:id="@+id/btn"
             android:layout_width="0dp"
@@ -88,6 +75,24 @@
             app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@android:color/transparent"
             tools:visibility="gone" />
+
+        <EditText
+            android:id="@+id/editTextText"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
+            android:ems="10"
+            android:fontFamily="@font/anta"
+            android:gravity="center"
+            android:hint="Build name"
+            android:inputType="text"
+            android:textColor="#909090"
+            android:textColorHint="#909090"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageView3"
+            app:layout_constraintStart_toEndOf="@+id/imageView7"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

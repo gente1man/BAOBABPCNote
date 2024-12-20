@@ -63,12 +63,15 @@
 
             <ImageView
                 android:id="@+id/menu_ic"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="5dp"
+                android:padding="5px"
+                android:tint="#EEEEEE"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/userIcon3"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_sett_dot"
+                app:srcCompat="@drawable/ic_logout"
                 tools:ignore="MissingConstraints" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

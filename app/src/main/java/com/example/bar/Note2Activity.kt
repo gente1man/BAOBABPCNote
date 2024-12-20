@@ -1,12 +1,17 @@
 package com.example.bar
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
@@ -20,6 +25,7 @@ import androidx.core.view.GravityCompat
 import com.example.bar.databinding.ActivityNote2Binding
 import com.google.firebase.database.FirebaseDatabase
 import com.bumptech.glide.Glide
+import com.example.bar.ui.reg.RegLogInActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class Note2Activity : AppCompatActivity() {
@@ -79,6 +85,47 @@ class Note2Activity : AppCompatActivity() {
         addIcon2.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
+
+        fun showLogoutConfirmationDialog(context: Context) {
+            // Инициализация диалога с кастомным дизайном
+            val inflater = LayoutInflater.from(context)
+            val dialogView = inflater.inflate(R.layout.logout, null)
+
+            // Создание диалога без стандартных кнопок
+            val dialog = AlertDialog.Builder(context)
+                .setView(dialogView)
+                .setCancelable(false)  // Делает диалог некликабельным в пустой области
+                .create()
+
+            // Находим кастомные кнопки
+            val confirmButton = dialogView.findViewById<Button>(R.id.confirmButton)
+            val cancelButton = dialogView.findViewById<Button>(R.id.cancelButton)
+
+            // Устанавливаем логику для кнопки "Да"
+            confirmButton.setOnClickListener {
+                // Переход на активность с очищением стека
+                val intent = Intent(context, RegLogInActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                context.startActivity(intent)
+
+                // Закрываем диалог
+                dialog.dismiss()
+            }
+
+            // Устанавливаем логику для кнопки "Отмена"
+            cancelButton.setOnClickListener {
+                dialog.dismiss() // Просто закрываем диалог
+            }
+
+            dialog.show() // Показываем кастомный диалог
+        }
+
+        val logout = findViewById<View>(R.id.menu_ic)
+        logout.setOnClickListener {
+            showLogoutConfirmationDialog(this)  // Показываем диалог подтверждения
+        }
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

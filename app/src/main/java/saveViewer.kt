@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -68,7 +69,7 @@ object LibraryManager {
                         editButton.setOnClickListener {
                             val navController = findNavController(fragment)
                             val bundle = Bundle().apply {
-                                putString("message", cardView.findViewById<EditText>(R.id.build2).text.toString())
+                                putString("message", cardView.findViewById<EditText>(R.id.build).text.toString())
                             }
                             navController.navigate(R.id.nav_home, bundle)
                         }
@@ -164,7 +165,7 @@ object LibraryManager {
         val cardView = inflater.inflate(R.layout.view_card, cardLayout, false)
 
         cardView.id = View.generateViewId()
-        val editText = cardView.findViewById<EditText>(R.id.build2)
+        val editText = cardView.findViewById<EditText>(R.id.build)
         val deleteButton = cardView.findViewById<ImageView>(R.id.imageView6)
 
         // Устанавливаем имя сборки
@@ -175,20 +176,37 @@ object LibraryManager {
 
     // Функция для показа диалогового окна подтверждения
     private fun showDeleteConfirmationDialog(context: Context, cardView: View, cardLayout: ConstraintLayout) {
+        // Инициализация диалога с кастомным дизайном
         val inflater = LayoutInflater.from(context)
         val dialogView = inflater.inflate(R.layout.is_ok, null)
 
-        AlertDialog.Builder(context)
+        // Создание диалога без стандартных кнопок
+        val dialog = AlertDialog.Builder(context)
             .setView(dialogView)
-            .setPositiveButton("Да") { _, _ ->
-                // Удаляем карточку из layout
-                cardLayout.removeView(cardView)
-                // Обновляем привязки оставшихся карточек
-                updateCardViewPositions(cardLayout)
-            }
-            .setNegativeButton("Отмена", null)
-            .show()
+            .setCancelable(false)  // Делает диалог некликабельным в пустой области
+            .create()
+
+        // Находим кастомные кнопки
+        val confirmButton = dialogView.findViewById<Button>(R.id.confirmButton)
+        val cancelButton = dialogView.findViewById<Button>(R.id.cancelButton)
+
+        // Устанавливаем логику для кнопки "Да"
+        confirmButton.setOnClickListener {
+            // Удаляем карточку из layout
+            cardLayout.removeView(cardView)
+            // Обновляем привязки оставшихся карточек
+            updateCardViewPositions(cardLayout)
+            dialog.dismiss() // Закрываем диалог
+        }
+
+        // Устанавливаем логику для кнопки "Отмена"
+        cancelButton.setOnClickListener {
+            dialog.dismiss() // Просто закрываем диалог
+        }
+
+        dialog.show() // Показываем кастомный диалог
     }
+
 
     // Обновление привязок карточек
     private fun updateCardViewPositions(cardLayout: ConstraintLayout) {

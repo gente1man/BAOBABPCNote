@@ -43,7 +43,7 @@ class GalleryFragment : Fragment() {
             val bundle = Bundle().apply {
                 putString("message","")
             }
-            navController.navigate(R.id.nav_home, bundle)
+            navController.navigate(R.id.nav_slideshow, bundle)
         }
         return root
     }

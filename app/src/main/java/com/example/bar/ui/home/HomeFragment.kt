@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.bar.Component
 import com.example.bar.ComponentCardUtils
 import com.example.bar.FirebaseManager
@@ -15,6 +16,7 @@ import com.example.bar.CardLibrary
 import com.example.bar.CardUIElements
 import com.example.bar.ComponentCardUtils.getComponentsByCardId
 import com.example.bar.ComponentCardUtils.saveComponent
+import com.example.bar.R
 
 
 class HomeFragment : Fragment() {
@@ -42,6 +44,8 @@ class HomeFragment : Fragment() {
         var recLoadName:String = ""
         val baseCardIdList = mutableListOf<String>()
         addButton.setOnClickListener {
+            val navController = findNavController()
+            navController.navigate(R.id.nav_slideshow)
             val name = binding.buildName.text.toString()
             if (!name.isBlank()) {
                 // Пример использования
@@ -341,7 +345,6 @@ class HomeFragment : Fragment() {
         binding.addComp.setOnClickListener {
             addCard()
         }
-        Toast.makeText(requireContext(), recLoadName, Toast.LENGTH_SHORT).show()
         if (!recLoadName.isBlank()) {
             FirebaseManager.getRecordByName(recLoadName) { importedData ->
                 if (importedData != null) {
@@ -358,9 +361,6 @@ class HomeFragment : Fragment() {
                     println("Ошибка при получении сборки.")
                 }
             }
-        }
-        else{
-            Toast.makeText(requireContext(), "Empty(", Toast.LENGTH_SHORT).show()
         }
 
         return root
