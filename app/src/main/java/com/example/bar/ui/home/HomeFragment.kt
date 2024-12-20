@@ -92,6 +92,7 @@ class HomeFragment : Fragment() {
         // Отображение сообщения в Toast, если оно не пустое
         message?.let {
             recLoadName = it
+            binding.buildName.setText(recLoadName)
         }
         cardCounter = 0
         // Инициализируем Spinner

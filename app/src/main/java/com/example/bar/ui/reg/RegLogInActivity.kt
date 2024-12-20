@@ -57,6 +57,7 @@ class RegLogInActivity : AppCompatActivity() {
                         updateAvatar(avatarUrl)
                     }
                 } else {
+                    Toast.makeText(this, "Registration...", Toast.LENGTH_LONG).show()
                     registerNewUser(email, password, avatarUrl)
                 }
             }
