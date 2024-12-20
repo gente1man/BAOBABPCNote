@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.bar.databinding.FragmentGalleryBinding
 import com.example.bar.databinding.FragmentSlideshowBinding
-import com.example.bar.ui.slideshow.SlideshowViewModel
 import com.example.bar.LibraryManager
 import com.example.bar.R
 import com.example.bar.ui.home.HomeFragment
@@ -29,14 +28,12 @@ class GalleryFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val slideshowViewModel =
-            ViewModelProvider(this).get(SlideshowViewModel::class.java)
 
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val cardLayout = binding.cardLayout
-        val firstAnchorView  = binding.build // ID первого объекта для привязки
+        val firstAnchorView  = binding.build2 // ID первого объекта для привязки
         LibraryManager.importLibrary(requireContext(), cardLayout, firstAnchorView, this)
 
         val btn = binding.btn

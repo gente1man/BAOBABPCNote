@@ -1,9 +1,6 @@
 package com.example.bar.ui.home
 
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,14 +8,11 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import com.example.bar.Component
 import com.example.bar.ComponentCardUtils
-import com.example.bar.R
 import com.example.bar.FirebaseManager
 import com.example.bar.ComponentType
 import com.example.bar.databinding.FragmentHomeBinding
 import com.example.bar.CardLibrary
-import com.example.bar.ComponentCardUtils.addCard
 import com.example.bar.CardUIElements
-import com.example.bar.ComponentCardUtils.addCard_USENAME
 import com.example.bar.ComponentCardUtils.getComponentsByCardId
 import com.example.bar.ComponentCardUtils.saveComponent
 
@@ -42,6 +36,7 @@ class HomeFragment : Fragment() {
         val cardLibrary = CardLibrary()
         var cardId = cardLibrary.addCard()
         val addButton = binding.SB
+        val expButton = binding.export
         val cardLayout = binding.cardLayout
         var cardCounter = 0
         var recLoadName:String = ""
@@ -59,6 +54,11 @@ class HomeFragment : Fragment() {
                 Toast.makeText(requireContext(), "Введите название сборки!", Toast.LENGTH_SHORT).show()
             }
         }
+
+        expButton.setOnClickListener {
+                FirebaseManager.saveSelectedToViewLibraries(requireContext(), cardUIElementsList, cardLibrary)
+        }
+
         fun addCardToStorage(
             cardId: String,
             addButton: Button,
@@ -230,8 +230,9 @@ class HomeFragment : Fragment() {
                 previousViewId = cardCounter,
                 binding.BP.id,
                 cardId = View.generateViewId(), // Генерация уникального ID для карточки
-                binding.SB,
-                cardLibrary
+                binding.BUTTLAY,
+                cardLibrary,
+
             )
             if (newCardElements != null) {
                 cardUIElementsList.add(newCardElements)
@@ -249,7 +250,7 @@ class HomeFragment : Fragment() {
                 previousViewId = cardCounter,
                 binding.BP.id,
                 cardId = View.generateViewId(), // Генерация уникального ID для карточки
-                binding.SB,
+                binding.BUTTLAY,
                 cardLibrary,
                 name
             )
@@ -383,5 +384,25 @@ class HomeFragment : Fragment() {
             null
         }
     }
+
+    fun collectActiveElements(): Map<String, String> {
+        val activeElements = mutableMapOf<String, String>()
+
+        for (cardUI in cardUIElementsList) {
+            // Получаем выбранный элемент из Spinner
+            val selectedItem = cardUI.spinner.selectedItem?.toString()
+
+            // Если элемент выбран, добавляем его в результат
+            if (!selectedItem.isNullOrBlank()) {
+                activeElements[cardUI.cardId] = selectedItem
+            } else {
+                // Если ничего не выбрано, можно задать значение по умолчанию
+                activeElements[cardUI.cardId] = "Не выбрано"
+            }
+        }
+
+        return activeElements
+    }
+
 
 }

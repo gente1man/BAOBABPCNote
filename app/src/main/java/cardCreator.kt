@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.example.bar.CardUIElements
 
 object ComponentCardUtils {
 
@@ -271,7 +270,7 @@ object ComponentCardUtils {
         previousViewId: Int,
         bp: Int,
         cardId: Int,
-        sbButton: Button,
+        sbButton: LinearLayout,
         cardLibrary: CardLibrary
     ): CardUIElements? { // Изменили тип возвращаемого значения на CardUIElements
         // Инфлейт кастомного диалогового окна
@@ -377,7 +376,7 @@ object ComponentCardUtils {
         previousViewId: Int,
         bp: Int,
         cardId: Int,
-        sbButton: Button,
+        sbButton: LinearLayout,
         cardLibrary: CardLibrary,
         cardName: String
     ): CardUIElements? {

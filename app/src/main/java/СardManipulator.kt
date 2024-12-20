@@ -111,11 +111,6 @@ class CardLibrary {
         }
     }
 
-
-
-
-
-
     fun logCardLibrary() {
         // Проходим по всем картам
         for ((cardId, components) in cards) {
@@ -131,4 +126,27 @@ class CardLibrary {
             }
         }
     }
+
+    fun getComponentTypesByCardId(cardId: String): ComponentType? {
+        val cardComponents = cards[cardId] ?: throw IllegalArgumentException("Card with ID $cardId does not exist")
+
+        // Возвращаем тип первого компонента, если он существует, иначе возвращаем null
+        return cardComponents.firstOrNull()?.type
+    }
+
+    // Функция для получения ссылки и цены по ID карты и названию компонента
+    fun getComponentLinkAndPriceByCardIdAndName(cardId: String, componentName: String): Pair<String?, String?> {
+        val cardComponents = cards[cardId] ?: throw IllegalArgumentException("Card with ID $cardId does not exist")
+
+        // Ищем компонент по названию
+        val component = cardComponents.find { it.name == componentName }
+
+        // Если компонент найден, возвращаем пару: ссылка и цена, иначе возвращаем null
+        return if (component != null) {
+            Pair(component.link, component.price)
+        } else {
+            Pair(null, null) // Если компонент не найден
+        }
+    }
+
 }
